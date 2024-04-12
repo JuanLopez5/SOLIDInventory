@@ -4,10 +4,16 @@
  */
 package com.mycompany.inventoryproject;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import javax.swing.table.TableRowSorter;
+import javax.swing.RowFilter;
 
 /**
  *
@@ -23,6 +29,8 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
+        readFile();
+        initObjects();
     }
 
     /**
@@ -34,31 +42,79 @@ public class Main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pnBackground = new javax.swing.JPanel();
         lblProduct = new javax.swing.JLabel();
-        lblStock = new javax.swing.JLabel();
-        lblPrice = new javax.swing.JLabel();
         txtProduct = new javax.swing.JTextField();
+        lblPrice = new javax.swing.JLabel();
         txtPrice = new javax.swing.JTextField();
+        lblStock = new javax.swing.JLabel();
         txtStock = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        lblSearch = new javax.swing.JLabel();
+        txtSearch = new javax.swing.JTextField();
+        btnSearch = new javax.swing.JButton();
+        spnProduct = new javax.swing.JScrollPane();
         tblProduct = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        pnBackground.setBackground(new java.awt.Color(72, 84, 96));
+        pnBackground.setLayout(null);
+
+        lblProduct.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblProduct.setForeground(new java.awt.Color(255, 255, 255));
         lblProduct.setText("Product Name");
+        pnBackground.add(lblProduct);
+        lblProduct.setBounds(30, 30, 100, 20);
+        pnBackground.add(txtProduct);
+        txtProduct.setBounds(160, 20, 150, 30);
 
-        lblStock.setText("Stock");
-
+        lblPrice.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblPrice.setForeground(new java.awt.Color(255, 255, 255));
         lblPrice.setText("Price");
+        pnBackground.add(lblPrice);
+        lblPrice.setBounds(30, 70, 100, 20);
+        pnBackground.add(txtPrice);
+        txtPrice.setBounds(160, 60, 150, 30);
 
+        lblStock.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblStock.setForeground(new java.awt.Color(255, 255, 255));
+        lblStock.setText("Stock");
+        pnBackground.add(lblStock);
+        lblStock.setBounds(30, 110, 100, 20);
+        pnBackground.add(txtStock);
+        txtStock.setBounds(160, 100, 150, 30);
+
+        btnAdd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnAdd.setText("Add");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddActionPerformed(evt);
             }
         });
+        pnBackground.add(btnAdd);
+        btnAdd.setBounds(250, 140, 72, 27);
 
+        lblSearch.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblSearch.setForeground(new java.awt.Color(255, 255, 255));
+        lblSearch.setText("Search");
+        pnBackground.add(lblSearch);
+        lblSearch.setBounds(400, 20, 60, 20);
+        pnBackground.add(txtSearch);
+        txtSearch.setBounds(470, 20, 150, 30);
+
+        btnSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnSearch.setText("Search");
+        btnSearch.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
+        pnBackground.add(btnSearch);
+        btnSearch.setBounds(630, 20, 72, 27);
+
+        tblProduct.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblProduct.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -70,50 +126,22 @@ public class Main extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane1.setViewportView(tblProduct);
+        tblProduct.setRowSelectionAllowed(false);
+        tblProduct.getTableHeader().setReorderingAllowed(false);
+        spnProduct.setViewportView(tblProduct);
+
+        pnBackground.add(spnProduct);
+        spnProduct.setBounds(40, 180, 673, 285);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblStock)
-                    .addComponent(lblPrice)
-                    .addComponent(lblProduct))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtProduct, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                    .addComponent(txtPrice)
-                    .addComponent(txtStock))
-                .addGap(42, 42, 42)
-                .addComponent(btnAdd)
-                .addGap(221, 221, 221))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
+            .addComponent(pnBackground, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 752, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblProduct)
-                    .addComponent(txtProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPrice)
-                    .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblStock)
-                    .addComponent(txtStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdd))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addComponent(pnBackground, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
         );
 
         pack();
@@ -123,17 +151,30 @@ public class Main extends javax.swing.JFrame {
         Product pr = new Product();
         ModelProductInvTable productModel = (ModelProductInvTable) this.tblProduct.getModel();
         pr.setProductName(txtProduct.getText());
-        pr.setPrice(Double.parseDouble(txtPrice.getText()));      /*Convert */
-        pr.setStock(Integer.parseInt(txtStock.getText()));
         
+        try{          
+            pr.setPrice(Double.parseDouble(txtPrice.getText()));      /*Convert */
+            pr.setStock(Integer.parseInt(txtStock.getText()));          /*Try Catch for any format error*/
+        }catch(NumberFormatException e){
+            System.out.println("Error: Invalid Price or Stock format");
+            return;
+        }
         productModel.AddProduct(pr);
+        clearFields();
         
-        
+        saveProductsInv();
         
         
         
         
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+      
+      RowFilter<ModelProductInvTable, Integer> rowFilter = RowFilter.regexFilter(txtSearch.getText(),0);
+      tableRowSorter.setRowFilter(rowFilter);
+      
+    }//GEN-LAST:event_btnSearchActionPerformed
 
     /**
      * @param args the command line arguments
@@ -167,18 +208,65 @@ public class Main extends javax.swing.JFrame {
             public void run() {
                 new Main().setVisible(true);
             }
-        });
+        });        
     }
-
+    
+    private void clearFields(){
+        txtProduct.setText("");
+        txtPrice.setText("");               /*Clear text field*/
+        txtStock.setText("");
+    }
+    private void initObjects(){
+       
+        ModelProductInvTable model = new ModelProductInvTable(this.product);
+        tableRowSorter = new TableRowSorter<>(model);
+        tblProduct.setRowSorter(tableRowSorter);
+        tblProduct.setModel(model);
+    }
+    
+    private void saveProductsInv(){
+        
+        Gson gson = new GsonBuilder().create();
+        String json = gson.toJson(this.product);
+        
+        try (FileWriter fileWriter = new FileWriter("ProductsInventory.json")){
+            fileWriter.write(json);
+            fileWriter.close();
+            System.out.println("Succesfully save: Product list");
+        }catch (IOException e){
+            System.err.println("Error saving product list to JSON: " + e.getMessage());
+        }
+    }
+    
+    private void readFile(){
+        try{
+            Gson gson = new GsonBuilder().create();
+            FileReader fileReader = new FileReader("ProductsInventory.json");
+            
+            java.lang.reflect.Type typeListProducts = new TypeToken<List<Product>>(){
+            }.getType();
+            
+            this.product = gson.fromJson(fileReader, typeListProducts);
+        }catch (IOException e){
+            System.err.println("Error reading JSON file: " + e.getMessage());
+        }
+    }
+    
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JLabel lblPrice;
     private javax.swing.JLabel lblProduct;
+    private javax.swing.JLabel lblSearch;
     private javax.swing.JLabel lblStock;
+    private javax.swing.JPanel pnBackground;
+    private javax.swing.JScrollPane spnProduct;
     private javax.swing.JTable tblProduct;
     private javax.swing.JTextField txtPrice;
     private javax.swing.JTextField txtProduct;
+    private javax.swing.JTextField txtSearch;
     private javax.swing.JTextField txtStock;
     // End of variables declaration//GEN-END:variables
 }

@@ -35,6 +35,16 @@ public class ModelProductInvTable extends AbstractTableModel{
     public int getColumnCount() {
         return this.columnNames.length;
     }
+    
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        return false;
+    }
+
+    @Override
+    public String getColumnName(int column) {
+        return this.columnNames[column];
+    }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
@@ -50,5 +60,7 @@ public class ModelProductInvTable extends AbstractTableModel{
                 product;
         };
     }
-
+    
+    
+    
 }

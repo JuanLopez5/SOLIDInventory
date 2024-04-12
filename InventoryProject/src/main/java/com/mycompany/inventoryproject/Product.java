@@ -12,16 +12,14 @@ public class Product {
     private String productName;
     private double price;
     private int stock;
-    private int prueba;
 
     public Product() {
     }
 
-    public Product(String productName, double price, int stock, int prueba) {
+    public Product(String productName, double price, int stock) {
         this.productName = productName;
         this.price = price;
         this.stock = stock;
-        this.prueba = prueba;
     }
 
     public String getProductName() {
@@ -45,7 +43,11 @@ public class Product {
     }
 
     public void setStock(int stock) {
-        this.stock = stock;
+        try {
+      this.stock = Integer.parseInt(String.valueOf(stock));
+    } catch (NumberFormatException e) {
+      System.err.println("Error: Stock invalido: " + stock);
+    }
     }
 
     
