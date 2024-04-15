@@ -20,10 +20,16 @@ public class ModelProductInvTable extends AbstractTableModel{
         this.product = product;
     }
     
-     public void AddProduct(Product product){
+    public void addProduct(Product product){
         this.product.add(product);
         this.fireTableDataChanged();
     }
+     
+    public void removeInvProduct(){
+        this.product.removeLast();
+        this.fireTableDataChanged();
+    
+}
     
     
     @Override

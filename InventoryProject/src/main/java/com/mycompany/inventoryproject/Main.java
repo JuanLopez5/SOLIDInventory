@@ -55,6 +55,7 @@ public class Main extends javax.swing.JFrame {
         btnSearch = new javax.swing.JButton();
         spnProduct = new javax.swing.JScrollPane();
         tblProduct = new javax.swing.JTable();
+        btnRemove = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -93,7 +94,7 @@ public class Main extends javax.swing.JFrame {
             }
         });
         pnBackground.add(btnAdd);
-        btnAdd.setBounds(250, 140, 72, 27);
+        btnAdd.setBounds(130, 150, 72, 27);
 
         lblSearch.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblSearch.setForeground(new java.awt.Color(255, 255, 255));
@@ -131,7 +132,17 @@ public class Main extends javax.swing.JFrame {
         spnProduct.setViewportView(tblProduct);
 
         pnBackground.add(spnProduct);
-        spnProduct.setBounds(40, 180, 673, 285);
+        spnProduct.setBounds(40, 200, 673, 285);
+
+        btnRemove.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnRemove.setText("Remove");
+        btnRemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveActionPerformed(evt);
+            }
+        });
+        pnBackground.add(btnRemove);
+        btnRemove.setBounds(270, 150, 79, 27);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -159,7 +170,21 @@ public class Main extends javax.swing.JFrame {
             System.out.println("Error: Invalid Price or Stock format");
             return;
         }
-        productModel.AddProduct(pr);
+        
+        try {
+            double price = Double.parseDouble(txtPrice.getText());
+            int stock = Integer.parseInt(txtStock.getText());
+            if (price <= 0 || stock <= 0) {
+                throw new IllegalArgumentException("Error: Price or Stock must be a positive value.");
+            }
+            pr.setPrice(price);
+            pr.setStock(stock);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
+        
+        productModel.addProduct(pr);
         clearFields();
         
         saveProductsInv();
@@ -175,6 +200,11 @@ public class Main extends javax.swing.JFrame {
       tableRowSorter.setRowFilter(rowFilter);
       
     }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
+        ModelProductInvTable productInvTable = (ModelProductInvTable)this.tblProduct.getModel();
+        productInvTable.removeInvProduct();
+    }//GEN-LAST:event_btnRemoveActionPerformed
 
     /**
      * @param args the command line arguments
@@ -256,6 +286,7 @@ public class Main extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnRemove;
     private javax.swing.JButton btnSearch;
     private javax.swing.JLabel lblPrice;
     private javax.swing.JLabel lblProduct;
